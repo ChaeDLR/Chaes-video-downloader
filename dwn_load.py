@@ -14,12 +14,12 @@ class down_load:
     	"""download video"""
 
     	print("Chae's Downloader")
-    	print("Enter url: ")
-    	url = input()
+    	#print("Enter url: ")
+    	url = input('Enter URL: ')
 
     	while self.urlCheck.isUrl(url) == False:
     		print("Try again...")
-    		url = input()
+    		url = input('Enter URL: ')
 
     	print("Fetching video...")
     	ytVideo = YouTube(url)
