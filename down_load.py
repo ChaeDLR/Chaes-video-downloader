@@ -4,8 +4,8 @@ from textchecks import SearchingPro
 import os
 import re
 
-class down_load:
-
+class Down_Load:
+	
     def __init__(self):
         """download"""
         self.urlCheck = SearchingPro()
@@ -40,5 +40,5 @@ class down_load:
 
 if __name__ == "__main__":
 
-	Download = down_load()
-	Download.videotube()
+	download = Down_Load()
+	download.videotube()
