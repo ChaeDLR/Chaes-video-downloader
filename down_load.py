@@ -1,41 +1,36 @@
 from selenium import webdriver
 from pytube import YouTube, Playlist
-from textchecks import SearchingPro
+from input_check import Input_Check
 import os
 import re
 
 class Down_Load:
 	
-    def __init__(self):
-        """download"""
-        self.urlCheck = SearchingPro()
+	def __init__(self):
+		"""download"""
+		self.input_check = Input_Check()
 
-    def videotube(self):
-    	"""download video"""
+	def videotube(self):
+		"""download video"""
 
-    	print("Chae's Downloader")
-    	#print("Enter url: ")
-    	url = input('Enter URL: ')
+		print("Chae's Downloader")
+		#print("Enter url: ")
+		url = self.input_check.url_prompt()
 
-    	while self.urlCheck.isUrl(url) == False:
-    		print("Try again...")
-    		url = input('Enter URL: ')
+		print("Fetching video...")
+		ytVideo = YouTube(url)
+	
+		for i in range(0, len(ytVideo.streams)):
+			print("Number: {} | {}".format(i, ytVideo.streams[i]))
+		print("Choose a stream number:")
+		streamChoice = input()
 
-    	print("Fetching video...")
-    	ytVideo = YouTube(url)
+		destinationPath = 'Videos/'
 
-    	
-    	for i in range(0, len(ytVideo.streams)):
-    		print("Number: {} | {}".format(i, ytVideo.streams[i]))
-    	print("Choose a stream number:")
-    	streamChoice = input()
-
-    	destinationPath = 'Videos/'
-
-    	print("Downloading...")
-    	usrStream = ytVideo.streams[int(streamChoice)]
-    	usrStream.download(destinationPath)
-    	print("Done!")
+		print("Downloading...")
+		usrStream = ytVideo.streams[int(streamChoice)]
+		usrStream.download(destinationPath)
+		print("Done!")
 
 
 if __name__ == "__main__":

@@ -1,9 +1,6 @@
 # Chae's video downloader
  Powered by pytube. 
 
-dwn_load.py is the main file. 
-
-run
-python dwn_load.py
-
-and follow instructions. 
+videodownloader.py is the main file. 
+input_checks.py stores the class that checks for correct input
+down_load.py stores the video downloader class

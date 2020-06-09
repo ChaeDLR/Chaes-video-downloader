@@ -9,13 +9,9 @@ class Input_Check:
 		self.youtube_check = re.compile(r'youtube.com')
 
 	def url_prompt(self):
-		while not self.url_match:
-			print("Enter a YouTube URL")
-			self.user_url = pyip.inputURL()
-			user_input_check = self.youtube_check.search(self.user_url)
-			if user_input_check:
-				self.url_match = True 
-
-if __name__ =='__main__':
-	url_check = Input_Check()
-	url_check.url_prompt()
+		print("Enter a YouTube URL")
+		self.user_url = pyip.inputURL()
+		user_input_check = self.youtube_check.search(self.user_url)
+		if user_input_check:
+			self.user_url = str(self.user_url)
+			return self.user_url

@@ -1,6 +1,6 @@
 prograssives = legacy streams 
 DASH dynamic progrssive streaming 
-Vcodec
-Acodec 
+Vcodec / video
+Acodec / audio
 post process FFmpeg 
 streams.filter()
