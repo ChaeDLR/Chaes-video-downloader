@@ -9,6 +9,7 @@ class Down_Load:
 	def __init__(self):
 		"""download"""
 		self.input_check = Input_Check()
+		self.destinationPath = 'Videos/'
 
 	def videotube(self):
 		"""download video"""
@@ -18,19 +19,29 @@ class Down_Load:
 		url = self.input_check.url_prompt()
 
 		print("Fetching video...")
-		ytVideo = YouTube(url)
-	
-		for i in range(0, len(ytVideo.streams)):
-			print("Number: {} | {}".format(i, ytVideo.streams[i]))
-		print("Choose a stream number:")
-		streamChoice = input()
+		self.ytVideo = YouTube(url)
 
-		destinationPath = 'Videos/'
+		# list the streams
+		streamList = self.streams_list()
+		for i in enumerate(streamList):
+			print(streamList[i])
 
 		print("Downloading...")
-		usrStream = ytVideo.streams[int(streamChoice)]
-		usrStream.download(destinationPath)
+		usrStream = self.ytVideo.streams[int(streamChoice)]
+		usrStream.download(self.destinationPath)
 		print("Done!")
+	
+	def streams_list(self):
+		"""return a list of streams available """
+		sl = []
+
+		for _, stream in enumerate(self.ytVideo.streams):
+			sl.append(stream)
+			#print("Number: {} | {}".format(i, self.ytVideo.streams[i]))
+
+		#print("Choose a stream number:")
+		#streamChoice = input()
+		return sl
 
 
 if __name__ == "__main__":

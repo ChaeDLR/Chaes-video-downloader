@@ -23,6 +23,10 @@ class VideoDownloader:
 		self.enter_button = tk.Button(master, text="Enter", command=#command)
 		self.enter_button.bind("<Button-1>", #check the text input for url command)
 		self.enter_button.pack(pady=20)
+
+	def streams_list(self):
+		"""take and display the stream options for a url"""
+		
 	
 
 if __name__ == '__main__':
