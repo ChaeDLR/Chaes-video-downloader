@@ -1,6 +1,5 @@
 from selenium import webdriver
 from pytube import YouTube, Playlist
-from input_check import Input_Check
 import os
 import re
 
@@ -8,7 +7,6 @@ class Down_Load:
 	
 	def __init__(self):
 		"""download"""
-		self.input_check = Input_Check()
 		self.destinationPath = 'Videos/'
 
 	def videotube(self):
@@ -16,7 +14,7 @@ class Down_Load:
 
 		print("Chae's Downloader")
 		#print("Enter url: ")
-		url = self.input_check.url_prompt()
+		#url = self.input_check.url_prompt()
 
 		print("Fetching video...")
 		self.ytVideo = YouTube(url)

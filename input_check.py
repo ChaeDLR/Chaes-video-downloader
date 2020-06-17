@@ -15,3 +15,10 @@ class Input_Check:
 		if user_input_check:
 			self.user_url = str(self.user_url)
 			return self.user_url
+
+	def url_text_check(self, textstring):
+		"""used to check a string"""
+		isYoutubeUrl = self.youtube_check.search(textstring)
+		if isYoutubeUrl:
+			print(textstring)
+			return True
