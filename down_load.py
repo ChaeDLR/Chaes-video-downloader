@@ -1,32 +1,27 @@
 from selenium import webdriver
 from pytube import YouTube, Playlist
 import os
-import re
 
 class Down_Load:
 	
-	def __init__(self):
+	def __init__(self, window):
 		"""download"""
 		self.destinationPath = 'Videos/'
+		self.window = window
 
-	def videotube(self):
+	def videotube(self, url):
 		"""download video"""
 
-		print("Chae's Downloader")
-		#print("Enter url: ")
-		#url = self.input_check.url_prompt()
-
-		print("Fetching video...")
 		self.ytVideo = YouTube(url)
 
 		# list the streams
-		streamList = self.streams_list()
-		for i in enumerate(streamList):
-			print(streamList[i])
-
-		print("Downloading...")
-		usrStream = self.ytVideo.streams[int(streamChoice)]
-		usrStream.download(self.destinationPath)
+		self.streamList = self.streams_list()
+	
+	def select_stream(self):
+		"""fetch the users selected stream to download"""
+		#self.user_selected_stream = self.window.
+		#self.usrStream = self.ytVideo.streams[]
+		#self.usrStream.download(self.destinationPath)
 		print("Done!")
 	
 	def streams_list(self):
@@ -40,9 +35,3 @@ class Down_Load:
 		#print("Choose a stream number:")
 		#streamChoice = input()
 		return sl
-
-
-if __name__ == "__main__":
-
-	download = Down_Load()
-	download.videotube()
