@@ -11,5 +11,5 @@ class Input_Check:
 		"""used to check a string"""
 		isYoutubeUrl = self.youtube_check.search(textstring)
 		if isYoutubeUrl:
-			print(textstring)
+			print("URl passed check")
 			return True

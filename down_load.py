@@ -11,19 +11,18 @@ class Down_Load:
 
 	def videotube(self, url):
 		"""download video"""
+		print("using url")
 		self.ytVideo = YouTube(url)
+		print("grabbing stream list")
 		# list the streams
 		self.streamList = self.streams_list()
 	
-	def select_stream(self):
+	def select_stream(self, selection):
 		"""fetch the users selected stream to download"""
-		
-		#### NEED TO ADD USER SELECTION ARGUMENT ####
 
-		#self.user_selected_stream = self.window.
-		#self.usrStream = self.ytVideo.streams[]
-		#self.usrStream.download(self.destinationPath)
-		#print("Done!")
+		self.user_selected_stream = selection
+		self.usrStream = self.ytVideo.streams[selection]
+		self.usrStream.download(self.destinationPath)
 	
 	def streams_list(self):
 		"""return a list of streams available """

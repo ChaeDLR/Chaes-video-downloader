@@ -25,9 +25,9 @@ class VideoDownloader:
 		self.window_state = 0
 		self.change_widgets = False
 		# tk.OptionsMenu(master, func, *list, command=#command)
-		self._display_widets(self.window_state, self.change_widgets)
+		self._display_widets(self.window_state)
 
-	def _display_widets(self, state, change):
+	def _display_widets(self, state):
 		"""widget organizer"""
 		#### NEED TO ORGANIZE THE DIFFERENT WINDOWS STATES ####
 		if state == 0:
@@ -49,9 +49,17 @@ class VideoDownloader:
 	def _listbox_button_function(self):
 		"""function for the button to grab the listbox focus"""
 		if self.stream_options_list_box != None:
+			# select the user video download option
 			self.user_selection = self.stream_options_list_box.curselection()
+			#### need to add function for filtering the stream list with using user option ####
+			self._destroy_entrybox()
+			self.enter_button.destroy()
+			self.window_state += 1
+			self._display_widets(self.window_state)
 		elif self.stream_list_box != None:
+			# user picking the actual stream they want 
 			self.user_selection = self.stream_list_box.curselection()
+			#### need to add self.down_load.select_stream ####
 
 	def _entry_button_function(self):
 		"""get and check user input"""
@@ -59,6 +67,15 @@ class VideoDownloader:
 		if self.input_check.url_text_check(self.initial_user_input):
 			# if the user input is indeed a youtube url we want to get the streams
 			self.down_load.videotube(self.initial_user_input)
+			# destroy the widgets and change thw window state number 
+			self._destroy_entrybox()
+			self.enter_button.destroy()
+			self.window_state += 1
+			self._display_widets(self.window_state)
+	
+	def _destroy_entrybox(self):
+		"""destroy the entry box widget and add to window state"""
+		self.entry_box.destroy()
 
 	def _destroy_widgets(self):
 			# disable video url entry field
