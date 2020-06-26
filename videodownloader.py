@@ -17,7 +17,7 @@ class VideoDownloader:
 		self.frame.pack()
 
 		self.input_check = Input_Check()
-		self.down_load = Down_Load(self)
+		self.down_load = Down_Load(self, self.input_check)
 
 		self.master = master
 
@@ -28,14 +28,19 @@ class VideoDownloader:
 		self._display_widets(self.window_state)
 
 	def _display_widets(self, state):
-		"""widget organizer"""
-		#### NEED TO ORGANIZE THE DIFFERENT WINDOWS STATES ####
+		""" window and widget organizer """
+
+		# take a youtube url
 		if state == 0:
 			self._url_entry_box()
 			self._enter_button(self._entry_button_function)
+
+		# user selects stream option
 		elif state == 1:
 			self._stream_options_listbox()
 			self._enter_button(self._listbox_button_function)
+
+		# user selects stream to download
 		elif state == 2:
 			self._streams_listbox()
 			self._enter_button(self._listbox_button_function)
@@ -52,6 +57,7 @@ class VideoDownloader:
 			# select the user video download option
 			self.user_selection = self.stream_options_list_box.curselection()
 			#### need to add function for filtering the stream list with using user option ####
+			#self.down_load.#function()																	<------ 
 			self._destroy_entrybox()
 			self.enter_button.destroy()
 			self.window_state += 1
@@ -100,13 +106,13 @@ class VideoDownloader:
 			# insert takes index and string 
 			self.stream_list_box.insert(0, i)
 	
-	def _stream_options_listbox(self):
-		"""display the stream options"""
+	def _stream_type_options_listbox(self):
+		""" display the stream options """
 		self.stream_options_list_box = tk.Listbox(self.master, width=30)
 		self.stream_options_list_box.pack(pady=20)
-		self.stream_options_list_box.insert(0, "Audio only")
+		self.stream_options_list_box.insert(0, "Video with audio")
 		self.stream_options_list_box.insert(1, "Video only")
-		self.stream_options_list_box.insert(2, "Both")
+		self.stream_options_list_box.insert(2, "Audio only")
 
 	def _url_entry_box(self):
 		"""entry box for user url"""

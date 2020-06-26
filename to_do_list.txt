@@ -1,0 +1,4 @@
+1. complete functions in input_check to filter the streams 
+2. add all of the user options to the user option widget 
+3. add text widget to each window state
+4. add the stream filter functions to the user selection 

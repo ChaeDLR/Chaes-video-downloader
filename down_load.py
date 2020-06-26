@@ -4,10 +4,11 @@ import os
 
 class Down_Load:
 	
-	def __init__(self, window):
+	def __init__(self, window, inputcheck):
 		"""download"""
 		self.destinationPath = 'Videos/'
 		self.window = window
+		self.input_check = inputcheck
 
 	def videotube(self, url):
 		"""download video"""
@@ -16,6 +17,8 @@ class Down_Load:
 		print("grabbing stream list")
 		# list the streams
 		self.streamList = self.streams_list()
+		for i in self.streamList:
+			print(i)
 	
 	def select_stream(self, selection):
 		"""fetch the users selected stream to download"""
@@ -30,3 +33,6 @@ class Down_Load:
 		for _, stream in enumerate(self.ytVideo.streams):
 			sl.append(stream)
 		return sl
+
+	def filter_streams(self, useroption):
+		""" filter the streams using the user selection"""
