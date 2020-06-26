@@ -37,35 +37,52 @@ class VideoDownloader:
 
 		# user selects stream option
 		elif state == 1:
-			self._stream_options_listbox()
+			self._stream_type_options_listbox()
+			self._enter_button(self._select_type_option_function)
+		
+		elif state == 2:
+			self._enter_button(self._select_type_option_function)
+		
+		elif state == 3:
+			self._create_options_listbox(self.down_load.user_video_available_resolutions)
 			self._enter_button(self._listbox_button_function)
 
 		# user selects stream to download
-		elif state == 2:
+		elif state == 4:
 			self._streams_listbox()
 			self._enter_button(self._listbox_button_function)
 
 	def _enter_button(self, buttoncommand):
-		"""initial enter button"""
+		""" initial enter button """
 		self.enter_button = tk.Button(self.master, text="Enter", command=buttoncommand)
 		#self.enter_button.bind("<Button-1>", self.button_function())
 		self.enter_button.pack(pady=20)
 
-	def _listbox_button_function(self):
-		"""function for the button to grab the listbox focus"""
-		if self.stream_options_list_box != None:
-			# select the user video download option
-			self.user_selection = self.stream_options_list_box.curselection()
-			#### need to add function for filtering the stream list with using user option ####
-			#self.down_load.#function()																	<------ 
-			self._destroy_entrybox()
-			self.enter_button.destroy()
-			self.window_state += 1
-			self._display_widets(self.window_state)
-		elif self.stream_list_box != None:
-			# user picking the actual stream they want 
-			self.user_selection = self.stream_list_box.curselection()
-			#### need to add self.down_load.select_stream ####
+	def _select_type_option_function(self):
+		""" select option from listbox """
+		# select the user video download option
+		user_selection = self.stream_options_list_box.curselection()
+		print(user_selection[0])
+		# Video and audio = 0
+		if user_selection[0] == 0: 
+			filtered_list = self.input_check.video_audio(user_selection)
+		# Video only = 1
+		elif user_selection[0] == 1:
+			filtered_list = self.input_check.video_only(user_selection)
+		# Audio only = 2
+		elif user_selection[0] == 2: 
+			filtered_list = self.input_check.audio_only(user_selection)
+		#self.down_load.#function()
+		self._destroy_widgets()
+		self._create_options_listbox(filtered_list)
+		self._display_widets(self.window_state)
+		return filtered_list
+		
+	def _select_stream_function(self):
+		""" function to grab the selected stream and download it """
+		# user picking the actual stream they want 
+		self.user_selection = self.stream_list_box.curselection()
+		#### need to add self.down_load.select_stream
 
 	def _entry_button_function(self):
 		"""get and check user input"""
@@ -74,30 +91,29 @@ class VideoDownloader:
 			# if the user input is indeed a youtube url we want to get the streams
 			self.down_load.videotube(self.initial_user_input)
 			# destroy the widgets and change thw window state number 
-			self._destroy_entrybox()
-			self.enter_button.destroy()
-			self.window_state += 1
+			self._destroy_widgets()
 			self._display_widets(self.window_state)
-	
-	def _destroy_entrybox(self):
-		"""destroy the entry box widget and add to window state"""
-		self.entry_box.destroy()
 
 	def _destroy_widgets(self):
+		""" the one ring """
+		if self.entry_box:
 			# disable video url entry field
 			self.entry_box.destroy()
 			# destroy url entry button
 			self.enter_button.destroy()
-			# destroy steam listbox
-			self.stream_list_box.destroy()
+		elif self.stream_options_list_box:
 			#destroy stream options list box
 			self.stream_options_list_box.destroy()
+			self.enter_button.destroy()
+		elif self.stream_list_box:
+			# destroy steam listbox
+			self.stream_list_box.destroy()
+			self.enter_button.destroy()
 			# change the state
-			self.window_state += 1
-
+		self.window_state += 1
 		
 	def _streams_listbox(self):
-		"""take and display the stream options for a url"""
+		""" take and display the stream options for a url """
 		# stream list 
 		self.stream_list = self.down_load.streamList
 		self.stream_list_box = tk.Listbox(self.master, width=30)
@@ -114,8 +130,15 @@ class VideoDownloader:
 		self.stream_options_list_box.insert(1, "Video only")
 		self.stream_options_list_box.insert(2, "Audio only")
 
+	def _create_options_listbox(self, optionslist):
+		""" display resolution options """
+		self.stream_options_list_box = tk.Listbox(self.master, width=30)
+		self.stream_options_list_box.pack(pady=20)
+		for num, ting in optionslist:
+			self.stream_options_list_box.insert(num, ting)
+
 	def _url_entry_box(self):
-		"""entry box for user url"""
+		""" entry box for user url """
 		self.entry_box = tk.Entry(self.master, )
 		self.entry_box.pack(pady=20)
 
