@@ -2,10 +2,8 @@ import re
 
 class Input_Check:
 	"""inputclass"""
-
 	def __init__(self):
 		"""init for this test"""
-
 		self.url_match = False
 		self.youtube_check = re.compile(r'youtube.com/watch')
 		self.audio_only_check = re.compile(r'acodec')

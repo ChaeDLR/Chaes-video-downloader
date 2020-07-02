@@ -4,23 +4,19 @@ from down_load import Down_Load
 
 root = tk.Tk()
 root.title("Chae's video downloader ")
-# root.iconbitmap()
+#root.iconbitmap()
 root.geometry("400x400")
 root.configure(background='#4f97a3')
 
 class VideoDownloader:
 	"""Video downloader class"""
-
 	def __init__(self, master=None):
 		"""init downloader variables"""
 		self.frame = tk.Frame(master)
 		self.frame.pack()
-
 		self.input_check = Input_Check()
 		self.down_load = Down_Load(self, self.input_check)
-
 		self.master = master
-
 		# window manager variables
 		self.window_state = 0
 		self.change_widgets = False
@@ -29,35 +25,61 @@ class VideoDownloader:
 
 	def _display_widets(self, state):
 		""" window and widget organizer """
-
 		# take a youtube url
 		if state == 0:
-			self._url_entry_box()
-			self._enter_button(self._entry_button_function)
-
-		# user selects stream option
+			# get users youtube url
+			self._display_state_one()
 		elif state == 1:
-			self._stream_type_options_listbox()
-			self._enter_button(self._select_type_option_function)
-		
+			# get users download option
+			self._display_state_two()
 		elif state == 2:
-			self._enter_button(self._select_type_option_function)
-		
+			self._enter_button()
 		elif state == 3:
 			self._create_options_listbox(self.down_load.user_video_available_resolutions)
 			self._enter_button(self._listbox_button_function)
-
 		# user selects stream to download
 		elif state == 4:
 			self._streams_listbox()
 			self._enter_button(self._listbox_button_function)
+	
+	def _display_state_one(self):
+		""" ask the user to enter a youtube video url """
+		directionstext = "Enter a Youtube URL."
+		self._text_label(directionstext)
+		self._url_entry_box()
+		self._enter_button(self._entry_button_function)
+
+	def _display_state_two(self):
+		""" ask the user to select download option """
+		directionstext = "Select download option."
+		self._text_label(directionstext)
+		self._stream_type_options_listbox()
+		self._enter_button(self._select_type_option_function)
+
+	def _display_state_three(self):
+		""" ask the user to select an available resolution """
+		directionstext = "Select an available resolution"
+		self._text_label(directionstext)
+		self._available_resolutions_listbox()
+		self._enter_button()
+
+	def _text_label(self, directionstext):
+		""" display text for the user """
+		self.text_label = tk.Label(text=directionstext)
+		self.text_label.pack(pady=20)
 
 	def _enter_button(self, buttoncommand):
 		""" initial enter button """
 		self.enter_button = tk.Button(self.master, text="Enter", command=buttoncommand)
 		#self.enter_button.bind("<Button-1>", self.button_function())
 		self.enter_button.pack(pady=20)
-
+	
+	def _select_resolution_function(self):
+		""" select resolution enter button function """
+		user_selection = self.available_resolutions_list_box.curselection()
+		for i in range(self.down_load.user_video_available_resolutions):
+			if user_selection[0] == i:
+				
 	def _select_type_option_function(self):
 		""" select option from listbox """
 		# select the user video download option
@@ -111,6 +133,13 @@ class VideoDownloader:
 			self.enter_button.destroy()
 			# change the state
 		self.window_state += 1
+
+	def _available_resolutions_listbox(self):
+		""" take and display available resolutions """
+		self.available_resolutions_list_box = tk.Listbox(self.master, width=30)
+		self.available_resolutions_list_box.pack(pady=20)
+		for i in enumerate(self.down_load.user_video_available_resolutions):
+			self.available_resolutions_list_box.insert(0, i)
 		
 	def _streams_listbox(self):
 		""" take and display the stream options for a url """
@@ -141,8 +170,6 @@ class VideoDownloader:
 		""" entry box for user url """
 		self.entry_box = tk.Entry(self.master, )
 		self.entry_box.pack(pady=20)
-
-	
 
 if __name__ == '__main__':
 	window = VideoDownloader(root)

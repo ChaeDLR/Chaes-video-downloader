@@ -3,7 +3,6 @@ from pytube import YouTube, Playlist
 import os
 
 class Down_Load:
-	
 	def __init__(self, window, inputcheck):
 		"""download"""
 		self.destinationPath = 'Videos/'
@@ -36,5 +35,9 @@ class Down_Load:
 			sl.append(stream)
 		return sl
 
-	def filter_streams(self, useroption):
+	def filter_streams(self, streamslist, useroption):
 		""" filter the streams using the user selection"""
+		sl = []
+		for _, stream in enumerate(streamslist):
+			sl.append(stream)
+		return sl
