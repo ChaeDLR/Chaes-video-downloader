@@ -2,3 +2,8 @@
 2. add all of the user options to the user option widget 
 3. add text widget to each window state
 4. add the stream filter functions to the user selection 
+
+
+
+Line 59 of input check 
+need to find a way to match specific resolutions and filter by that 

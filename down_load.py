@@ -40,4 +40,5 @@ class Down_Load:
 		sl = []
 		for _, stream in enumerate(streamslist):
 			sl.append(stream)
+		sl = list(dict.fromKeys(sl))
 		return sl

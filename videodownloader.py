@@ -61,7 +61,7 @@ class VideoDownloader:
 		directionstext = "Select an available resolution"
 		self._text_label(directionstext)
 		self._available_resolutions_listbox()
-		self._enter_button()
+		self._enter_button(self._select_resolution_function)
 
 	def _text_label(self, directionstext):
 		""" display text for the user """
@@ -77,9 +77,15 @@ class VideoDownloader:
 	def _select_resolution_function(self):
 		""" select resolution enter button function """
 		user_selection = self.available_resolutions_list_box.curselection()
-		for i in range(self.down_load.user_video_available_resolutions):
+		for i in self.down_load.user_video_available_resolutions:
 			if user_selection[0] == i:
-				
+				resolution_match = self.down_load.user_video_available_resolutions[i]
+			
+			filtered_list = self.input_check.one_resolution_only(resolution_match, user_selection[0])
+			print(filtered_list)
+			self._destroy_widgets()
+			self._create_options_listbox()
+
 	def _select_type_option_function(self):
 		""" select option from listbox """
 		# select the user video download option
