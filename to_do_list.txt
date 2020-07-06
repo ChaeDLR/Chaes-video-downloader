@@ -1,9 +1,5 @@
-1. complete functions in input_check to filter the streams 
-2. add all of the user options to the user option widget 
-3. add text widget to each window state
-4. add the stream filter functions to the user selection 
-
-
+1. Working on _select_resolution()
+	need to make the function select the correct resolution from the list and filter the rest 
 
 Line 59 of input check 
 need to find a way to match specific resolutions and filter by that 

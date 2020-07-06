@@ -3,7 +3,7 @@ from input_check import Input_Check
 from down_load import Down_Load
 
 root = tk.Tk()
-root.title("Chae's video downloader ")
+root.title("Chaes' video downloader ")
 # root.iconbitmap()
 root.geometry("400x400")
 root.configure(background='#4f97a3')
@@ -63,7 +63,7 @@ class VideoDownloader:
         """ ask the user to select an available resolution """
         directionstext = "Select an available resolution"
         self._text_label(directionstext)
-        self._available_resolutions_listbox()
+        self._create_options_listbox(self.down_load.user_video_available_resolutions)
         self._enter_button(self._select_resolution_function)
 
     def _text_label(self, directionstext):
@@ -92,9 +92,10 @@ class VideoDownloader:
             print("mp4 selected")
             for stream in self.input_check.stream_format(self.down_load.streamList, "mp4"):
                 filtered_list.append(stream)
-        print("Filtered list: {}".format(filtered_list))
         self.down_load.streamList = filtered_list
-        print(self.down_load.streamList)
+        for laStream in self.down_load.streamList:
+            print(laStream)
+        self._destroy_widgets(self.window_state)
 
     def _select_resolution_function(self):
         """ select resolution enter button function """
@@ -145,6 +146,8 @@ class VideoDownloader:
             # destroy the widgets and change thw window state number
             self._destroy_widgets(self.window_state)
             self._display_widets(self.window_state)
+            for res in self.down_load.user_video_available_resolutions:
+                print(res)
 
     def _destroy_widgets(self, state):
         """ the one ring """

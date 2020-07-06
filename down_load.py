@@ -22,6 +22,8 @@ class Down_Load:
         # Create the filtered list as soon as the video is fetched
         self.user_video_available_resolutions = self.input_check.available_resolutions(
             self.streamList)
+        self.user_video_available_resolutions = [int(x) for x in self.user_video_available_resolutions]
+        self.user_video_available_resolutions.sort()
 
     def select_stream(self, selection):
         """fetch the users selected stream to download"""
