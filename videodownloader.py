@@ -36,6 +36,8 @@ class VideoDownloader:
             self._display_state_two()
         elif state == 2:
             self._display_state_three()
+        elif state == 3:
+            self._display_state_four()
 
     def _display_state_one(self):
         """ ask the user to enter a youtube video url """
@@ -65,6 +67,7 @@ class VideoDownloader:
         self._text_label(directionstext)
         self._create_options_listbox(self.down_load.user_video_available_resolutions)
         self._enter_button(self._select_resolution_function)
+    
 
     def _text_label(self, directionstext):
         """ display text for the user """
@@ -96,16 +99,19 @@ class VideoDownloader:
         for laStream in self.down_load.streamList:
             print(laStream)
         self._destroy_widgets(self.window_state)
+        self._display_widets(self.window_state)
 
     def _select_resolution_function(self):
         """ select resolution enter button function """
-        user_selection = self.available_resolutions_list_box.curselection()
+        user_selection = self.stream_options_list_box.curselection()
+        print(f"User selected: {user_selection[0]}")
+        print(f"The resolution selected = {self.down_load.user_video_available_resolutions[int(user_selection[0])]}")
+        # user selection is matching the index 
         for i in self.down_load.user_video_available_resolutions:
             if user_selection[0] == i:
-                filtered_list = self.input_check.one_resolution_only(
-                    self.down_load.streamList, user_selection[0])
-        self.down_load.streamList = filtered_list
-        print(filtered_list)
+                filtered_list = self.input_check.one_resolution_only(self.down_load.streamList, user_selection[0])
+
+        #self.down_load.streamList = filtered_list
         self._destroy_widgets(self.window_state)
         self._create_options_listbox(filtered_list)
 
@@ -166,7 +172,7 @@ class VideoDownloader:
         elif state == 2:
             self.text_label.destroy()
             # destroy steam listbox
-            self.stream_list_box.destroy()
+            self.stream_options_list_box.destroy()
             self.enter_button.destroy()
             # change the state
         self.window_state += 1
