@@ -15,7 +15,8 @@ class Down_Load:
         """
         # Create a youtube object with the users url
         self.ytVideo = YouTube(url)
-        return self.ytVideo.streams
+        streams_list = self.ytVideo.streams
+        return streams_list
 
     def select_stream(self, selectionindex):
         """fetch the users selected stream to download"""
