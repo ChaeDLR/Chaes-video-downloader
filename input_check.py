@@ -1,7 +1,7 @@
 import re
 
 
-class Input_Check:
+class Filter_Streams:
     """inputclass"""
 
     def __init__(self):

@@ -40,7 +40,27 @@ post process FFmpeg
 streams.filter()
 
 
+    fps (int or None) – (optional) The frames per second.
+    resolution (str or None) – (optional) Alias to res.
+    res (str or None) – (optional) The video resolution.
+    mime_type (str or None) – (optional) Two-part identifier for file formats and format contents composed of a “type”, a “subtype”.
+    type (str or None) – (optional) Type part of the mime_type (e.g.: audio, video).
+    subtype (str or None) – (optional) Sub-type part of the mime_type (e.g.: mp4, mov).
+    file_extension (str or None) – (optional) Alias to sub_type.
+    abr (str or None) – (optional) Average bitrate (ABR) refers to the average amount of data transferred per unit of time (e.g.: 64kbps, 192kbps).
+    bitrate (str or None) – (optional) Alias to abr.
+    video_codec (str or None) – (optional) Video compression format.
+    audio_codec (str or None) – (optional) Audio compression format.
+    progressive (bool) – Excludes adaptive streams (one file contains both audio and video tracks).
+    adaptive (bool) – Excludes progressive streams (audio and video are on separate tracks).
+    is_dash (bool) – Include/exclude dash streams.
+    only_audio (bool) – Excludes streams with video tracks.
+    only_video (bool) – Excludes streams with audio tracks.
+    custom_filter_functions (list or None) – (optional) Interface for defining complex filters without subclassing.
 
+
+
+https://www.youtube.com/watch?v=sPPP4M5SfM8
 
 EXAMPLE OF STREAM OUTPUT 
 
