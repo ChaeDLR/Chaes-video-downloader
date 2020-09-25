@@ -4,45 +4,21 @@ import os
 
 
 class Down_Load:
-    def __init__(self, window, inputcheck):
-        """download"""
-        self.destinationPath = 'Videos/'
-        self.window = window
-        self.input_check = inputcheck
+    def __init__(self):
+        """ Initialize class 
+        download a youtube video
+        """
+        self.destinationPath = 'Downloaded_Videos/'
 
     def videotube(self, url):
-        """download video"""
-        print("using url")
+        """download video
+        """
+        # Create a youtube object with the users url
         self.ytVideo = YouTube(url)
-        print("grabbing stream list")
-        # list the streams
-        self.streamList = self.streams_list()
-        for i in self.streamList:
-            print(i)
-        # Create the filtered list as soon as the video is fetched
-        self.user_video_available_resolutions = self.input_check.available_resolutions(
-            self.streamList)
-        self.user_video_available_resolutions = [int(x) for x in self.user_video_available_resolutions]
-        self.user_video_available_resolutions.sort()
+        return self.ytVideo.streams
 
-    def select_stream(self, selection):
+    def select_stream(self, selectionindex):
         """fetch the users selected stream to download"""
+        usrStream = self.ytVideo.streams[selectionindex]
 
-        self.user_selected_stream = selection
-        self.usrStream = self.ytVideo.streams[selection]
-        self.usrStream.download(self.destinationPath)
-
-    def streams_list(self):
-        """return a list of streams available """
-        sl = []
-        for _, stream in enumerate(self.ytVideo.streams):
-            sl.append(stream)
-        return sl
-
-    def filter_streams(self, streamslist, useroption):
-        """ filter the streams using the user selection"""
-        sl = []
-        for _, stream in enumerate(streamslist):
-            sl.append(stream)
-        sl = list(dict.fromkeys(sl))
-        return sl
+        usrStream.download(self.destinationPath)
