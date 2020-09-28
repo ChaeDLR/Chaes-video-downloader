@@ -21,6 +21,7 @@ class Video_Downloader:
             print("")
             print("Welcome to Chae's Video Downloader!\n")
             print(colored("Enter 'exit' at anytime to quit the program.", "blue"))
+            print("")
             user_url = input("Enter a YouTube url: ")
             if user_url.lower() == 'exit':
                 sys.exit()
@@ -36,7 +37,7 @@ class Video_Downloader:
         while True:
             print("Select an option\n")
             print("1. Show available streams.")
-            print("2. Filter streams.")
+            print("2. Select a stream.")
             user_selection = input("? ")
             if int(user_selection) in range(1, 3):
                 return int(user_selection)
@@ -47,37 +48,64 @@ class Video_Downloader:
                 print("Try again.")
                 continue
 
-    def Resolution_selection(self, userselection):
-        ''' Filter streams by resolution
+    def Resolution_selection(self, streamslist):
+        ''' Takes the streams list
+            Asks user what resolution they want
+            Returns list of the indexes that match the resolution
         '''
-        pass
+        streams_list = list(streamslist)
+        available_resolutions = self.filter_streams.available_resolutions(
+            streams_list)
+        available_resolutions.sort()
+        print("Select a resolution")
+        for num, res in enumerate(available_resolutions):
+            print(f"{num}. {res}")
+        resolution_selection = input("? ")
+        if self.filter_streams.check_if_resolution.search(available_resolutions[int(resolution_selection)]):
+            resolution_selection = available_resolutions[int(
+                resolution_selection)]
+            print(f"Resolution selection {resolution_selection}")
+            streams_list_resolution_indexes = self.filter_streams.resolution_selection_index(
+                streams_list, resolution_selection)
+            return streams_list_resolution_indexes
+        elif resolution_selection.lower() == 'exit':
+            sys.exit()
+        else:
+            print(colored("Invalid input.", "red"))
+
+    def Format_selection(self, streamslist, indexlist):
+        ''' Takes the streamlist and indexes to work with
+            Outputs new index list of only the formats the user wants
+        '''
+        stream_index_list = indexlist
+        streams_list = list(streamslist)
+        print("Select a format.")
+        print("1. mp4")
+        print("2. webm")
+        user_selection = input("? ")
+
+        if user_selection.lower() != 'exit':
+            if int(user_selection) == 1:
+                stream_index_list = self.filter_streams.format_filter(
+                    streams_list, indexlist, 'mp4')
+            elif int(user_selection) == 2:
+                stream_index_list = self.filter_streams.format_filter(
+                    streams_list, indexlist, 'webm')
+        else:
+            print(colored("Invalid input.", "red"))
+
+        return stream_index_list
 
     def Filter_Streams_Menu(self, streamslist):
-        ''' Menu to allow the user to filter the video streams 
+        ''' Menu to allow the user to filter the video streams
         '''
-        streams_list = streamslist
-        while True:
-            print("Select a filter")
-            print("1. Resolution")
-            print("2. Format")
-            print("3. FPS")
-            print("4. Video and audio together only")
-            print("5. Video only")
-            print("6. Audio only")
-            user_selection = input("? ")
-            # if the input is valid
-            if int(user_selection) in range(1, 7):
-                # execute the users selection
-                if int(user_selection) == 1:
-                    available_resolutions = self.filter_streams.available_resolutions(
-                        streams_list)
-                    print("Available resolutions")
-                    for i in available_resolutions:
-                        print(i)
+        streamslist = list(streamslist)
 
-            else:
-                print(colored("Invalid input.", "red"))
-                continue
+        # Grab users desired resolution
+        users_stream_index_list = self.Resolution_selection(streamslist)
+        # Grab users desired format
+        users_stream_index_list = self.Format_selection(
+            streamslist, users_stream_index_list)
 
     def run_program(self):
         ''' main organizer for the program
@@ -89,8 +117,8 @@ class Video_Downloader:
         if user_menu_selection == 1:
             for i in streams_list:
                 print(i)
-
-        # TODO: Add filter streams functionality
+        else:
+            self.Filter_Streams_Menu(streams_list)
 
 
 if __name__ == '__main__':

@@ -13,14 +13,26 @@ class Filter_Streams:
         self.both_video_audio_check = re.compile(r'False')
         self.webm_format_check = re.compile(r'webm')
         self.mp4_format_check = re.compile(r'mp4')
+        # identify resolutions from a stream object
         self.check_for_resolution = re.compile(r'res="(\d\d\d\d?)p"')
+        # check if a user input is a resolution
+        self.check_if_resolution = re.compile(r'(\d\d\d\d?)p')
+
+        # resolutions
+        self.check_for_1440p = re.compile(r'res="1440p"')
+        self.check_for_1080p = re.compile(r'res="1080p"')
+        self.check_for_720p = re.compile(r'res="720p"')
+        self.check_for_480p = re.compile(r'res="480p"')
+        self.check_for_360p = re.compile(r'res="360p"')
+        self.check_for_240p = re.compile(r'res="240p"')
+        self.check_for_144p = re.compile(r'res="144p"')
 
     def available_resolutions(self, streamlist):
         """ take the streamlist and output available resolutions in a list """
         stream_list = self.check_for_resolution.findall(str(streamlist))
         available_resolutions_list = []
         for stream in stream_list:
-            available_resolutions_list.append(stream)
+            available_resolutions_list.append(f'{stream}p')
         available_resolutions_list = list(
             dict.fromkeys(available_resolutions_list))
         return available_resolutions_list
@@ -46,24 +58,50 @@ class Filter_Streams:
             print("URl passed check")
             return True
 
-    def webm_format_filter(self, streamlist):
+    def format_filter(self, streamlist, indexlist, userformat):
         """ take in the current stream list and filter out anything not webm """
-        webm_streams_list = []
-        for stream in streamlist:
-            webm_format_stream = self.webm_format_check.search(str(stream))
-            if webm_format_stream:
-                webm_streams_list.append(stream)
+        indexes_list = []
+        if userformat == 'mp4':
+            for index in indexlist:
+                if self.mp4_format_check.search(str(streamlist[index])):
+                    indexes_list.append(index)
+        elif userformat == 'webm':
+            for index in indexlist:
+                if self.webm_format_check.search(str(streamlist[index])):
+                    indexes_list.append(index)
 
-        return webm_streams_list
+        return indexes_list
 
-    def one_resolution_only(self, streamlist, resolution):
+    def resolution_selection_index(self, streamlist, resolution):
         """ take stream list and output list with resolution option only """
-        one_res_streams_list = []
-        for stream in streamlist:
-            if self.check_for_resolution.search(str(stream)) == resolution:
-                one_res_streams_list.append(stream)
-        one_res_streams_list = list(dict.fromkeys(one_res_streams_list))
-        return one_res_streams_list
+        index_list = []
+        resolution_regex = self.choose_resolution_regex(resolution)
+        for num, stream in enumerate(streamlist):
+            if resolution_regex.search(str(stream)):
+                index_list.append(num)
+        #one_res_streams_list = list(dict.fromkeys(one_res_streams_list))
+        return index_list
+
+    def choose_resolution_regex(self, resolution):
+        ''' Take the desired resolution
+            Return desired regex
+        '''
+        if resolution == '1440p':
+            return self.check_for_1440p
+        elif resolution == '1080p':
+            return self.check_for_1080p
+        elif resolution == '720p':
+            return self.check_for_720p
+        elif resolution == '480p':
+            return self.check_for_480p
+        elif resolution == '360p':
+            return self.check_for_360p
+        elif resolution == '240p':
+            return self.check_for_240p
+        elif resolution == '144p':
+            return self.check_for_144p
+        else:
+            print("Invalid input in choose_resolution_regex")
 
     def audio_only(self, streamlist):
         """ take stream list and output list of audio streams only """
