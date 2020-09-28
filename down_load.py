@@ -13,7 +13,6 @@ class Down_Load:
     def videotube(self, url):
         """download video
         """
-        # Create a youtube object with the users url
         self.ytVideo = YouTube(url)
         streams_list = self.ytVideo.streams
         return streams_list
@@ -21,5 +20,4 @@ class Down_Load:
     def select_stream(self, selectionindex):
         """fetch the users selected stream to download"""
         usrStream = self.ytVideo.streams[selectionindex]
-
         usrStream.download(self.destinationPath)
