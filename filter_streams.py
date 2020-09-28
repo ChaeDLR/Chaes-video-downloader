@@ -16,7 +16,10 @@ class Filter_Streams:
         # identify resolutions from a stream object
         self.check_for_resolution = re.compile(r'res="(\d\d\d\d?)p"')
         # check if a user input is a resolution
-        self.check_if_resolution = re.compile(r'(\d\d\d\d?)p')
+        self.check_if_resolution = re.compile(r'(\d\d\d\d?)')
+
+        self.fps_60_check = re.compile(r'fps="60fps"')
+        self.fps_30_check = re.compile(r'fps="30fps"')
 
         # resolutions
         self.check_for_1440p = re.compile(r'res="1440p"')
@@ -27,14 +30,33 @@ class Filter_Streams:
         self.check_for_240p = re.compile(r'res="240p"')
         self.check_for_144p = re.compile(r'res="144p"')
 
+    def Fps_index_selection(self, streamslist, indexlist, fpschoice):
+        ''' Takes streams list, index list, and fps selection
+            grabs the index of the stream we need
+            outputs the index
+        '''
+        if fpschoice == '60fps':
+            for index in indexlist:
+                if self.fps_60_check.search(str(streamslist[index])):
+                    return index
+
+        elif fpschoice == '30fps':
+            for index in indexlist:
+                if self.fps_30_check.search(str(streamslist[index])):
+                    return index
+
+        else:
+            print("Error")
+
     def available_resolutions(self, streamlist):
         """ take the streamlist and output available resolutions in a list """
         stream_list = self.check_for_resolution.findall(str(streamlist))
         available_resolutions_list = []
         for stream in stream_list:
-            available_resolutions_list.append(f'{stream}p')
+            available_resolutions_list.append(int(stream))
         available_resolutions_list = list(
             dict.fromkeys(available_resolutions_list))
+        available_resolutions_list.sort(reverse=True)
         return available_resolutions_list
 
     def stream_format(self, streamlist, formatchoice):
@@ -86,19 +108,19 @@ class Filter_Streams:
         ''' Take the desired resolution
             Return desired regex
         '''
-        if resolution == '1440p':
+        if resolution == 1440:
             return self.check_for_1440p
-        elif resolution == '1080p':
+        elif resolution == 1080:
             return self.check_for_1080p
-        elif resolution == '720p':
+        elif resolution == 720:
             return self.check_for_720p
-        elif resolution == '480p':
+        elif resolution == 480:
             return self.check_for_480p
-        elif resolution == '360p':
+        elif resolution == 360:
             return self.check_for_360p
-        elif resolution == '240p':
+        elif resolution == 240:
             return self.check_for_240p
-        elif resolution == '144p':
+        elif resolution == 144:
             return self.check_for_144p
         else:
             print("Invalid input in choose_resolution_regex")

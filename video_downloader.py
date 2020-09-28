@@ -56,12 +56,12 @@ class Video_Downloader:
         streams_list = list(streamslist)
         available_resolutions = self.filter_streams.available_resolutions(
             streams_list)
-        available_resolutions.sort()
+        # available_resolutions
         print("Select a resolution")
         for num, res in enumerate(available_resolutions):
-            print(f"{num}. {res}")
+            print(f"{num}. {res}p")
         resolution_selection = input("? ")
-        if self.filter_streams.check_if_resolution.search(available_resolutions[int(resolution_selection)]):
+        if self.filter_streams.check_if_resolution.search(str(available_resolutions[int(resolution_selection)])):
             resolution_selection = available_resolutions[int(
                 resolution_selection)]
             print(f"Resolution selection {resolution_selection}")
@@ -75,6 +75,7 @@ class Video_Downloader:
 
     def Format_selection(self, streamslist, indexlist):
         ''' Takes the streamlist and indexes to work with
+            Ask user their desirec format
             Outputs new index list of only the formats the user wants
         '''
         stream_index_list = indexlist
@@ -84,7 +85,9 @@ class Video_Downloader:
         print("2. webm")
         user_selection = input("? ")
 
-        if user_selection.lower() != 'exit':
+        if user_selection.lower() == 'exit':
+            sys.exit()
+        elif int(user_selection) in range(1, 3):
             if int(user_selection) == 1:
                 stream_index_list = self.filter_streams.format_filter(
                     streams_list, indexlist, 'mp4')
@@ -96,6 +99,32 @@ class Video_Downloader:
 
         return stream_index_list
 
+    def Fps_selection(self, streamslist, indexlist):
+        ''' Takes streamslist and indexes
+            Ask user what fps they want
+            Output index of stream
+        '''
+        stream_index_list = indexlist
+        streams_list = list(streamslist)
+        print("Select an fps.")
+        print("1. 60")
+        print("2. 30")
+        user_selection = input("? ")
+
+        if user_selection.lower() == 'exit':
+            sys.exit()
+        elif int(user_selection) in range(1, 3):
+            if int(user_selection) == 1:
+                stream_index = self.filter_streams.Fps_index_selection(
+                    streams_list, stream_index_list, '60fps')
+                return stream_index
+            elif int(user_selection) == 2:
+                stream_index = self.filter_streams.Fps_index_selection(
+                    streams_list, stream_index_list, '30fps')
+                return stream_index
+        else:
+            print(colored("Invalid input.", "red"))
+
     def Filter_Streams_Menu(self, streamslist):
         ''' Menu to allow the user to filter the video streams
         '''
@@ -106,6 +135,16 @@ class Video_Downloader:
         # Grab users desired format
         users_stream_index_list = self.Format_selection(
             streamslist, users_stream_index_list)
+        # Grab the users desirec fps if it exists
+        if len(users_stream_index_list) > 1:
+            stream_index = self.Fps_selection(
+                streamslist, users_stream_index_list)
+            print(f"Final index = {stream_index}")
+            print(streamslist[stream_index])
+        else:
+            stream_index = users_stream_index_list[0]
+            print(f"Final index = {stream_index}")
+            print(streamslist[stream_index])
 
     def run_program(self):
         ''' main organizer for the program
